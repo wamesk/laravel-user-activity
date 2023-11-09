@@ -1,11 +1,12 @@
 <?php
 
-namespace Wamesk\LaravelUserActivity\Http\Middleware;
+namespace Wame\LaravelUserActivity\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Nette\Utils\Strings;
-use Wamesk\LaravelUserActivity\Traits\UserActivityTrait;
+use Wame\LaravelUserActivity\Traits\UserActivityTrait;
 
 class UserActivity
 {
@@ -14,17 +15,19 @@ class UserActivity
      *
      * @param Request $request
      * @param Closure $next
-     * @return void
+     * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
         if (Strings::startsWith($request->getRequestUri(), '/api/v')) {
             /** @var UserActivityTrait $user */
-            $user = auth()->user();
+            $user = $request->user();
 
-//            if (isset($user)) {
-//
-//            }
+            if (isset($user) && !$user->userActivities()->whereDate('created_at', '=', now()->format('Y-m-d'))->count()) {
+                $user->userActivities()->create();
+            }
         }
+
+        return $next($request);
     }
 }

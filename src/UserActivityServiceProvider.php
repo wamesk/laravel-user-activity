@@ -1,6 +1,6 @@
 <?php
 
-namespace Wamesk\LaravelUserActivity;
+namespace Wame\LaravelUserActivity;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
@@ -26,7 +26,7 @@ class UserActivityServiceProvider extends ServiceProvider
         }
 
         $this->publishes([
-            __DIR__.'/../config/laravel-user-activity.php.php' => config_path('laravel-user-activity.php.php'),
+            __DIR__.'/../config/laravel-user-activity.php' => config_path('laravel-user-activity.php'),
         ], 'laravel-user-activity-config');
 
         $this->publishes([

@@ -1,13 +1,16 @@
 <?php
 
-namespace Wamesk\LaravelUserActivity\Models;
+namespace Wame\LaravelUserActivity\Models;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 
 class UserActivity extends Model
 {
-    const UPDATED_AT = false;
+    use HasUlids;
+
+    const UPDATED_AT = null;
 
     /**
      * @return void

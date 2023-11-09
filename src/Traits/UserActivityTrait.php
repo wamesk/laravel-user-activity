@@ -1,9 +1,9 @@
 <?php
 
-namespace Wamesk\LaravelUserActivity\Traits;
+namespace Wame\LaravelUserActivity\Traits;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Wamesk\LaravelUserActivity\Models\UserActivity;
+use Wame\LaravelUserActivity\Models\UserActivity;
 
 trait UserActivityTrait
 {

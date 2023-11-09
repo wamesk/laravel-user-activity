@@ -6,13 +6,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Wamesk\\LaravelUserActivity\\": "src/"
+            "Wame\\LaravelUserActivity\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Wamesk\\LaravelUserActivity\\UserActivityServiceProvider"
+                "Wame\\LaravelUserActivity\\UserActivityServiceProvider"
             ]
         }
     },
