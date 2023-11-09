@@ -1,0 +1,58 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class create_activities_table extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function up(): void
+    {
+        $tableName = config('laravel-user-activity.table_name');
+        $userIdType = config('laravel-user-activity.user_id');
+        $userTableName = config('laravel-user-activity.user_table_name');
+
+        if (!isset($tableName) || !isset($userIdType) || !isset($userTableName)) {
+            throw new Exception('Error: config/laravel-user-activity.php not loaded. Run [php artisan config:clear] and try again.');
+        }
+
+        if (!in_array(needle: $userIdType, haystack: ['id', 'uuid', 'ulid'])) {
+            throw new Exception('Error: Parameter user_id in config/laravel-user-activity.php is invalid change it to either id, uuid or ulid.');
+        }
+
+        $userIdType = match ($userIdType) {
+            'id' => 'foreignId',
+            'uuid' => 'foreignUuid',
+            'ulid' => 'foreignUlid',
+        };
+
+        Schema::create($tableName, function (Blueprint $table) use ($userTableName, $userIdType) {
+            $table->ulid('id')->primary();
+            $table->$userIdType('user_id')->constrained($userTableName)->nullOnDelete()->cascadeOnDelete();
+            $table->timestamp('created_at');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function down(): void
+    {
+        $tableName = config('laravel-user-activity.table_name');
+
+        if (!isset($tableName)) {
+            throw new Exception('Error: config/laravel-user-activity.php not loaded. Run [php artisan config:clear] and try again.');
+        }
+
+        Schema::drop($tableName);
+    }
+}
